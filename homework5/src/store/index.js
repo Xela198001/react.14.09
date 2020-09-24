@@ -1,6 +1,10 @@
-import { createStore } from 'redux';
-import rootReducer from '../reducers'
+import { configureStore } from "@reduxjs/toolkit";
+import chatsReducer from "../reducers/chatReducer";
+import messagesReducer from "../reducers/messagesReducer";
 
-const store = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),);
-
-export default store;
+export default configureStore({
+  reducer: {
+    chats: chatsReducer,
+    messages: messagesReducer,
+  },
+});

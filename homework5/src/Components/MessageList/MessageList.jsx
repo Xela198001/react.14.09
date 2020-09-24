@@ -1,7 +1,9 @@
-import React, {Component} from 'react';
-import Message from '../Message';
+import React from "react";
 import PropTypes from "prop-types";
 import { Box, makeStyles } from "@material-ui/core";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import Message from "../Message";
 
 const useStyles = makeStyles(theme => ({
   list: {
@@ -12,24 +14,32 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const MessageList = ({ messages }) => {
+const MessageList = () => {
   const classes = useStyles();
-  // console.log(classes.listul);
+
+  const { id } = useParams();
+  const chats = useSelector(state => state.chats.byIds);
+  const messagesFromRedux = useSelector(state => state.messages.byIds);
+
+  const messages = (chats[id]?.messageList ?? []).map(idx => messagesFromRedux[idx]);
+
   return (
-      <Box className={classes.list} component="ul">
-        {messages.map(({ id, author, message }) => (
-          <Message key={id} author={author} message={message} />
-        ))}
-      </Box>
+    <Box className={classes.list} component="ul">
+      {messages.map(({ id, author, message }) => (
+        <Message key={id} author={author} message={message} />
+      ))}
+    </Box>
   );
 };
 
 MessageList.propTypes = {
-  messages: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number,
-    author: PropTypes.string,
-    message: PropTypes.string,
-  })).isRequired,
+  messages: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      author: PropTypes.string,
+      message: PropTypes.string,
+    })
+  ).isRequired,
 };
 
 export default MessageList;
