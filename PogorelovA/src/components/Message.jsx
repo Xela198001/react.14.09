@@ -1,11 +1,10 @@
 import React from "react";
 
-const Message = ({ count }) => {
+const Message = ({ author, message }) => {
   return (
-    <div>
-      <h3>Привет, я функциональнй компонент</h3>
-      <p>{count}</p>
-    </div>
+    <li>
+      <span>{`${author}: ${message}`}</span>
+    </li>
   );
 };
 
