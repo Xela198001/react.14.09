@@ -9,6 +9,9 @@ module.exports = {
     path: path.resolve(__dirname, "build"),
     filename: "[name].js",
   },
+  resolve: {
+    extensions: [".js", ".jsx"],
+  },
   module: {
     rules: [
       {
@@ -18,6 +21,7 @@ module.exports = {
           loader: "babel-loader",
           options: {
             presets: ["@babel/preset-env", "@babel/preset-react"],
+            plugins: ["@babel/plugin-proposal-class-properties"],
           },
         },
       },
