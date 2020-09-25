@@ -1,55 +1,61 @@
-import React from 'react';
-import ReactDom from 'react-dom';
-import Message from './components/Message';
+import React, { Component, Fragment } from "react";
+import ReactDOM from "react-dom";
+import { v4 as uuidv4 } from "uuid";
+import FormMessage from "./components/FormMessage";
+import Message from "./components/Message";
 
-class HelloMessage extends React.Component {
-    constructor() {
-        super();
+class HelloMessage extends Component {
+  state = {
+    messages: [
+      {
+        id: uuidv4(),
+        author: "Bot",
+        message: "What do you want?",
+      }],
+      user: "noName",
+      count: 0,
+      authorMessages: [],
+      botMessages: ['What?', 'Please, say me what you want?', 'May be later?'],
+  };
 
-        this.state = {
-            count: 0,
-            messages: [],
-        };
+  addMessage = (message) => {
+    const { messages, authorMessages } = this.state;
 
-        this.addIncrementMessage = this.addIncrementMessage.bind(this);
-        this.addDecrementMessage = this.addDecrementMessage.bind(this);
-    }
+    this.setState({ messages: [...messages, { ...message, id: uuidv4() }] });
+    if(messages.length % 2 !== 0) {
+      this.setState({ authorMessages: [...authorMessages, message]})
+    };
+    console.log(authorMessages);
+  };
 
-    addDecrementMessage() {
-        const { messages, count } = this.state;
-        this.setState({ count: count - 1 })
-        this.setState({ messages: [...messages, `Вы уменьшили до ${count}`] });
-        console.log(messages);
-    }
-
-    addIncrementMessage() {
-        const { messages, count } = this.state;
-        this.setState({ count: count + 1 })
-        this.setState({ messages: [...messages, `Вы увеличили до ${count}`] });
-        console.log(messages);
-    }
-
-
-
-    render() {
-        const { count, messages } = this.state;
-        return (
-            <div>
-                <h1>Wassup {this.props.name}</h1>
-                <p>{count}</p>
-                <button onClick={this.addDecrementMessage}>-</button>
-                <button onClick={this.addIncrementMessage}>+</button>
-                <ul>
-                    {messages.map((item, index) => (
-                        <Message key={index} item={item} />
-                    ))}
-                </ul>
-            </div>
-        );
-    }
+componentDidUpdate(prevPrors, prepState) {
+  const {messages, user, botMessages, count} = this.state;
+  if(messages.length % 2 === 0) {
+    this.addMessage({ author: "Bot", message: `${user} ${botMessages[count]}` });
+    this.setState({ count: count+1 });
+    
+  }
 }
 
-ReactDom.render(
-    <HelloMessage name="Brooomigooo" />,
-    document.getElementById("hello-example")
+  render() {
+    const { messages } = this.state;
+
+    return (
+      <div>
+        <h1>Hello {this.props.name}</h1>
+        <p>from GeekBrains</p>
+        <ul>
+          {messages.map(({ id, author, message }) => (
+            <Message key={id} author={author} message={message} />
+          ))}
+        </ul>
+        <FormMessage addMessage={this.addMessage} />
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(
+  <HelloMessage name="Taylor" />,
+  document.getElementById("root")
 );

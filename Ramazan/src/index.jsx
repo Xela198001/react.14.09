@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import message from './components/message.jsx';
+// import message from './components/Message.jsx';
 
 class HelloMessage extends React.Component {
   constructor() {

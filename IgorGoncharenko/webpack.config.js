@@ -18,13 +18,15 @@ module.exports = {
         use: {
           loader: "babel-loader",
           options: {
-            presets: ["@babel/preset-env", "@babel/preset-react"],
+            presets: ['@babel/preset-env',
+                          '@babel/react',{
+                          'plugins': ['@babel/plugin-proposal-class-properties']}]
           },
         },
       },
     ],
   },
-  devtool: 'cheap-module-eval-source-map',
+  devtool: '#sourse-map',
   devServer: {
     contentBase: path.join(__dirname, "build"),
     compress: true,

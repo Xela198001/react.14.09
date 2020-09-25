@@ -1,53 +1,54 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Message from './components/message';
+import React, { Component, Fragment } from "react";
+import ReactDOM from "react-dom";
+import { v4 as uuidv4 } from "uuid";
+import FormMessage from "./components/FormMessage";
+import Message from "./components/Message";
 
-class HelloMessage extends React.Component {
-    constructor() {
-      super();
-  
-      this.state = {
-        count: 0,
-        messages: [],
-      };
-  
-      this.onClick = this.onClick.bind(this);
-      this.addMessage = this.addMessage.bind(this);
-    }
-  
-    onClick() {
-      const { count } = this.state;
-      this.setState({ count: count + 1 });
-    }
+class HelloMessage extends Component {
+  state = {
+    messages: [
+      {
+        id: uuidv4(),
+        author: "Bot",
+        message: "Привет от бота",
+      },
+    ],
+  };
 
-    addMessage() {
-        const { messages, count } = this.state;
-        this.setState({
-            count: count + 1,
-            messages: [...messages, `Сообщение №${count}`],
-        });
-    }
-  
-    render() {
-      const { count, messages } = this.state;
-  
-      return (
-        <div>
-          <h1>Hello {this.props.name}</h1>
-          <p>{count}</p>
-          <button onClick={this.onClick}>increment</button>
-          <button onClick={this.addMessage}>Add new message</button>
-          <ul>
-              {messages.map((item, index) =>(
-                  <Message key={index} item={item}/>
-              ))}
-          </ul>
-        </div>
-      );
+  componentDidUpdate(prevProps, prevState) {
+    const {messages} = this.state;
+    if(messages.length % 2 === 0) {
+      setTimeout(()=>{
+        this.addMessage({author: `Bot`, message: `Я бы что-то ответил, но пока не умею`})
+      }, 600)
     }
   }
-  
-  ReactDOM.render(
-    <HelloMessage name="Taylor" />,
-    document.getElementById("hello-example")
-  );
+
+  addMessage = (message) => {
+    const { messages } = this.state;
+
+    this.setState({ messages: [...messages, { ...message, id: uuidv4() }] });
+  };
+
+  render() {
+    const { messages } = this.state;
+
+    return (
+      <div>
+        <h1>Hello {this.props.name}</h1>
+        <p>from GeekBrains</p>
+        <ul>
+          {messages.map(({ id, author, message }) => (
+            <Message key={id} author={author} message={message} />
+          ))}
+        </ul>
+        <FormMessage addMessage={this.addMessage} />
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(
+  <HelloMessage name="Taylor" />,
+  document.getElementById("root")
+);
