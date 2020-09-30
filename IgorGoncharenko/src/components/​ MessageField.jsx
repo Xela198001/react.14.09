@@ -1,6 +1,5 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -35,12 +34,17 @@ const MessageFiled = () => {
   const [author, setAuthor] = React.useState("");
   const [post, setPost] = React.useState("");
   const [messegs, setMessages] = React.useState([]);
-  const addMessege = (e) => {
+  const onMessege = (e) => {
     e.preventDefault();
     setMessages([...messegs, { [id]: { author, post } }]);
     setAuthor("");
     setPost("");
   };
+  React.useEffect(() => {
+    if (author.length == 3) {
+      setMessages([...messegs, { [id]: { author: "Bot", post: "Привет" } }]);
+    }
+  }, [author]);
 
   return (
     <Grid>
@@ -76,7 +80,7 @@ const MessageFiled = () => {
         />
 
         <Button
-          onClick={addMessege}
+          onClick={onMessege}
           type="submint"
           size="medium"
           variant="contained"
