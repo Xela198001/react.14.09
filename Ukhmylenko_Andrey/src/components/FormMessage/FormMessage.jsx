@@ -6,7 +6,8 @@ const styles = theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    margin: theme.spacing(10),
+    margin: theme.spacing(4),
+    padding: theme.spacing(2),
   },
 });
 
@@ -20,9 +21,6 @@ class FormMessage extends Component {
     e.preventDefault();
     const { addMessage } = this.props;
     addMessage(this.state);
-    this.setState({
-      message: '',
-    });
   };
 
   onChange = ({ target }) => {

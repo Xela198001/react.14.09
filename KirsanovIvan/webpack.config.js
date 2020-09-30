@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
     entry: {
@@ -8,6 +9,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, "build"),
         filename: "[name].js",
+        publicPath: '/',
     },
     resolve: {
         extensions: ['.js', '.jsx']
@@ -24,17 +26,43 @@ module.exports = {
                 plugins: ["@babel/plugin-proposal-class-properties"]
               }
             }
-          }
+          },
+          {
+            test: /\.css$/i,
+            exclude: /\.module\.css$/,
+            use: [MiniCssExtractPlugin.loader, 'css-loader'],
+          },
+          {
+            test: /\.module\.css$/i,
+            use: [
+              MiniCssExtractPlugin.loader,
+              {
+                loader: 'css-loader',
+                options: {
+                  modules: {
+                    localIdentName: '[path][name]__[local]--[hash:base64:5]',
+                  },
+                  importLoaders: 1,
+                },
+              },
+            ],
+          },
         ]
       }, 
       devServer: {
         contentBase: path.join(__dirname, "build"),
         compress: true,
         port: 9000,
+        hot: true,
+        historyApiFallback: true,
       },     
     plugins: [
         new HtmlWebpackPlugin({
             template: './public/index.html'
         }),
+        new MiniCssExtractPlugin({
+          filename: 'css/[name].css',
+          chunkFilename: '[id].css'
+      }),
     ],
 };

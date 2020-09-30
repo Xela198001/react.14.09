@@ -1,48 +1,45 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { Redirect, useParams } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
 
-import { makeStyles } from '@material-ui/core';
-
-import Message from './Message';
 import MessageForm from './MessageForm';
-
-const useStyles = makeStyles(theme => ({
-  messagesList: {
-    display: 'flex',
-    flexDirection: 'column',
-    margin: 0,
-    padding: theme.spacing(2),
-    width: 500,
-  }
-}));
+import MessagesContext from './MessagesContext';
+import MessagesList from './MessagesList';
 
 const Messages = () => {
-  const classes = useStyles();
-
-  const [messagesList, setMessagesList] = useState([{ _id: uuid(), author: 'Bot', message: 'Hello!' }]);
+  const { id: chatId } = useParams();
+  const { chats, dispatch } = useContext(MessagesContext);
 
   const addMessage = ({ author, message }) => {
-    const newMessage = { _id: uuid(), author: author, message: message };
+    const newMessage = { _id: uuid(), author, message };
 
-    setMessagesList([...messagesList, newMessage]);
-  }
+    dispatch({
+      type: 'addMessage',
+      value: {
+        chatId,
+        message: newMessage,
+      },
+    });
+  };
 
   useEffect(() => {
-    if (messagesList[messagesList.length - 1].author !== 'Bot') {
+    const lastMessage = chats[chatId].messages;
+
+    if (lastMessage[lastMessage.length - 1].author !== 'Bot') {
       setTimeout(() => addMessage({ author: 'Bot', message: 'Ok!' }), 300);
     }
-  }, [messagesList])
+  });
 
-  return (<>
-    <MessageForm addMessage={addMessage} />
-    <ul className={classes.messagesList}>
-      {
-        messagesList.map(({ _id, author, message }) => {
-          return <Message key={_id} message={message} author={author} />
-        })
-      }
-    </ul>
-  </>);
-}
+  if (!chats[chatId]) {
+    return <Redirect to="/" />;
+  }
+
+  return (
+    <>
+      <MessageForm addMessage={addMessage} />
+      <MessagesList messages={chats[chatId].messages} />
+    </>
+  );
+};
 
 export default Messages;

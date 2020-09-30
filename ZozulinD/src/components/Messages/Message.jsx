@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme => ({
     alignSelf: 'flex-end',
     display: 'flex',
     flexDirection: 'column',
-    marginBottom: theme.spacing(1)
+    marginBottom: theme.spacing(1),
   },
   messageBot: {
     alignSelf: 'flex-start',
@@ -25,16 +25,24 @@ const useStyles = makeStyles(theme => ({
   },
   text: {
     wordBreak: 'break-all',
-  }
+  },
 }));
 
 const Message = ({ message, author }) => {
   const classes = useStyles();
 
-  return <li className={cn(classes.message, {[classes.messageBot]: author === 'Bot'})}>
-    <span className={cn(classes.authorName, classes.text, {[classes.authorBot]: author === 'Bot'})}>{author}</span>
-    <span className={classes.text}>{message}</span>
-  </li>;
+  return (
+    <li className={cn(classes.message, { [classes.messageBot]: author === 'Bot' })}>
+      <span
+        className={cn(classes.authorName, classes.text, {
+          [classes.authorBot]: author === 'Bot',
+        })}
+      >
+        {author}
+      </span>
+      <span className={classes.text}>{message}</span>
+    </li>
+  );
 };
 
 export default Message;
