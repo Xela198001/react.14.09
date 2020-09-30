@@ -1,12 +1,21 @@
-import React from 'react'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-const Messages = ({ count }) => {
-    return (
-        <div>
-            <h3>Привет, я функциональный компонент</h3>
-            <p>{count}</p>
-        </div>
-    )
+//компонент со строкой сообщения. Именно в него рендерится каждый объект из массива
+class Message extends Component {
+    render() {
+        const { author, text } = this.props;
+
+        return (<React.Fragment>
+            <span style="font-size: 10px; color: #ccc">{author}</span>
+            <div>{text}</div>
+        </React.Fragment>)
+    }
 }
 
-export default Messages
+Message.PropTypes = {
+    author: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired
+}
+
+export default Message
