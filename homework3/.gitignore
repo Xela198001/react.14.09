@@ -1,4 +1,8 @@
 /node_modules
 /build
+<<<<<<< HEAD
 /.vscode
 /tmp
+=======
+/.vscode
+>>>>>>> master

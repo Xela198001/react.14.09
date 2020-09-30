@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 /.idea
 .idea
 .DS_Store
+=======
+/hw1/node_modules
+/hw_2/node_modules
+/homework2/node_modules
+>>>>>>> master
