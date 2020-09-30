@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 /hw1/node_modules
 /hw_2/node_modules
 /homework2/node_modules
+=======
+/.idea
+.idea
+.DS_Store
+>>>>>>> 9d256dfa84fed9ac39796675b40556072216d512

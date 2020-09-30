@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from "react";
 import ReactDOM from "react-dom";
 import { v4 as uuidv4 } from "uuid";
@@ -75,3 +76,10 @@ ReactDOM.render(
   <Chat name="chat" />,
   document.getElementById("app")
 );
+=======
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './components/App';
+
+ReactDOM.render(<App />, document.getElementById('root'));
+>>>>>>> 9d256dfa84fed9ac39796675b40556072216d512

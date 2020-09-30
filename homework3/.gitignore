@@ -1,3 +1,8 @@
 /node_modules
 /build
+<<<<<<< HEAD
 /.vscode
+=======
+/.vscode
+/tmp
+>>>>>>> 9d256dfa84fed9ac39796675b40556072216d512
