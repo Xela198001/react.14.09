@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from "prop-types";
 import { v4 as uuidv4 } from 'uuid';
 import { Box, withStyles } from '@material-ui/core';
 import FormMessage from '../FormMessage';
@@ -28,7 +29,7 @@ const styles = {
   },
 };
 
-const HelloMessage = ({ children, classes }) => {
+const Layout = ({ children, classes }) => {
 
   return (
     <div className={classes.root}>
@@ -39,7 +40,7 @@ const HelloMessage = ({ children, classes }) => {
   );
 };
     
-FormMessage.propTypes = {
+Layout.propTypes = {
   children: PropTypes.element.isRequired,
   classes: PropTypes.shape({
     root: PropTypes.string,
@@ -47,4 +48,4 @@ FormMessage.propTypes = {
   }).isRequired,
 };
 
-export default withStyles(styles)(HelloMessage);
+export default withStyles(styles)(Layout);

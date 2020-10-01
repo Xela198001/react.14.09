@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
+import Layout from '../../components/Layout/Layout';
 import About from "../About";
 import Chats from "../Chats";
 import Home from "../Home";

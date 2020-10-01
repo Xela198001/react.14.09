@@ -1,7 +1,8 @@
 import React from "react";
+import { BrowserRouter } from "react-router-dom";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { CssBaseline } from "@material-ui/core";
-import Layout from "../Layout";
+import RootRouter from "../../Pages/RootRouter/RootRouter";
 
 const theme = createMuiTheme();
 
