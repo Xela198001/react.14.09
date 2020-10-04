@@ -13,20 +13,6 @@ const styles = {
     display: "flex",
     minHeight: "100vh",
   },
-  box: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "98%",
-  },
-  chat: {
-    width: "90%",
-    boxShadow: "0 3px 5px 2px rgba(0, 0, 0, .3)",
-    backgroundColor: "#fff",
-    borderRadius: 5,
-    padding: 10,
-  },
 };
 
 const Layout = ({ children, classes }) => {
@@ -41,7 +27,7 @@ const Layout = ({ children, classes }) => {
 };
     
 Layout.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.oneOfType([PropTypes.element, PropTypes.arrayOf(PropTypes.element)]).isRequired,
   classes: PropTypes.shape({
     root: PropTypes.string,
     container: PropTypes.string,

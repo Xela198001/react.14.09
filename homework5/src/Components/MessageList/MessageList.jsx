@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Message from '../Message';
 import PropTypes from "prop-types";
-import { Box,makeStyles } from "@material-ui/core";
+import { Box, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   list: {
@@ -26,7 +26,7 @@ const MessageList = ({ messages }) => {
 
 MessageList.propTypes = {
   messages: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.number,
     author: PropTypes.string,
     message: PropTypes.string,
   })).isRequired,

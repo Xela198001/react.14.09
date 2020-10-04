@@ -18,8 +18,8 @@ const RootRouter = () => {
         <Route exact path="/">
           <Home />
         </Route>
-        <Route exact path="/chats/:id/" component={Chats} />
-        <Route exact path="/about/">
+        <Route exact path="/chats/:id" component={Chats} />
+        <Route exact path="/about">
           <About />
         </Route>
         <Route
@@ -30,7 +30,7 @@ const RootRouter = () => {
           )}
         />
       </Switch>
-    </Layout>
+     </Layout>
   );
 };
 
