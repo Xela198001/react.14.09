@@ -1,22 +1,22 @@
 const path = require('path');
+const webpack = require("webpack");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-    entry:  {
+    entry: {
         app: "./src/index.jsx",
     },
     output: {
         path: path.resolve(__dirname, "build"),
-      filename: "[name].js",
-      publicPath: '/',
+        filename: "[name].js",
+        publicPath: '/',
     },
     resolve: {
         extensions: ['.js', '.jsx'],
     },
     module: {
-        rules: [
-            {
+        rules: [{
                 test: /\.js(x)?$/,
                 exclude: /(node_modules|bower_components)/,
                 use: {
@@ -56,9 +56,21 @@ module.exports = {
         hot: true,
         historyApiFallback: {
             index: 'index.html',
-          },
-  },
+        },
+    },
     // devtool​: ​'cheap-inline-module-source-map'​,
-plugins: [new HtmlWebpackPlugin({template: "./src/index.html"}),
-          new MiniCssExtractPlugin(),]
+    plugins: [new HtmlWebpackPlugin({
+            template: "./src/index.html"
+        }),
+        new MiniCssExtractPlugin(),
+        // new webpack.EvalSourceMapDevToolPlugin({
+        //     compress: false,
+        //     sourceMap: true,
+        //     mangle: false,
+        //     beautify: true,
+        //     module: true,
+        //     filename: '[file].map',
+        //     columns: false
+        // }),
+    ],
 };

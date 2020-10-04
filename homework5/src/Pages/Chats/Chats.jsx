@@ -31,14 +31,6 @@ class Chats extends Component {
     },
   };
 
-  /**
-   * После того как я обратился к боту, выполнился render и мое сообщение отобразилось. Дальше идет выполнение CDU
-    и в качестве параметра в addMessage мы уже передаем объект { author: 'Bot', message: 'I am Bot' } и он
-    также закидываетя в массив messages
-
-    Дальше, после добавления, берем новый объект из state (это наше новое сообщение)
-    и когда проверка проходит и последнее сообщение от меня, то бот нам отвечает
-   */
   componentDidUpdate() {
     const lastMessage = this.messages;
     if (lastMessage[lastMessage.length - 1]?.author === 'Me') {
@@ -57,11 +49,6 @@ class Chats extends Component {
     return [];
   }
 
-  /**
-   * в методе addMessage мы добавляем в массив messages (нвше сообщение боту) еще один объект с новыми данными,
-   * который идет в state
-   * @param {*} text объект из метода onSubmit, => state {text} (это то что я прописал в input)
-   */
   addMessage = ({ author, text }) => {
     const { id } = this.props.match.params; // в match хранятся id наших чатов
     const newId = uuidv4();
@@ -73,14 +60,6 @@ class Chats extends Component {
       },
       messages: { ...messages, [newId]: { id: newId, author, text } },
     }));
-
-    // with Immer.js
-    // this.setState(prevState =>
-    //   produce(prevState, draft => {
-    //     draft.chats[id].messageList.push(newId);
-    //     draft.messages[newId] = { id: newId, author, message };
-    //   }),
-    // );
   };
 
   render() {
