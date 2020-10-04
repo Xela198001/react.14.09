@@ -1,8 +1,9 @@
 import React from 'react';
 import cn from 'classnames';
-import { AppBar, Badge, IconButton, makeStyles, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, IconButton, makeStyles, Toolbar, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import NotificationsIcon from '@material-ui/icons/Notifications';
+import PersonIcon from '@material-ui/icons/Person';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -55,13 +56,13 @@ const Header = () => {
           noWrap
           className={classes.title}
         >
-          Dashboard
+          Чат
         </Typography>
-        <IconButton color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
+        <Link to="/profile">
+          <IconButton color="secondary">
+            <PersonIcon />
+          </IconButton>
+        </Link>
       </Toolbar>
     </AppBar>
   );

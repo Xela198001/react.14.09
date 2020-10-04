@@ -9,10 +9,12 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, "build"),
         filename: "[name].js",
+        publicPath: '/',
     },
     resolve: {
         extensions: ['.js', '.jsx'],
     },
+    devtool: 'source-map',
     module: {
         rules: [
             {
@@ -51,7 +53,9 @@ module.exports = {
     devServer: {
         contentBase: path.join(__dirname, 'build'),
         compress: true,
-        port: 9000
+        port: 9000,
+        hot: true,
+        historyApiFallback: true,
     },
 plugins: [new HtmlWebpackPlugin({template: "./src/index.html"}),
           new MiniCssExtractPlugin(),]

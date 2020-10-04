@@ -7,13 +7,15 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  ListSubheader,
   makeStyles,
 } from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChatIcon from '@material-ui/icons/Chat';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import HomeIcon from '@material-ui/icons/Home';
 import cn from 'classnames';
+import { NavLink, Link } from 'react-router-dom';
+import mockChats from './mockChats';
 
 const useStyles = makeStyles(theme => ({
   drawerPaper: {
@@ -29,11 +31,15 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar,
   },
   secondList: {
     marginTop: 'auto',
+  },
+  chatLink: {
+    textDecoration: 'none',
+  },
+  activeChatLink: {
+    color: theme.palette.secondary.main,
   },
 }));
 
@@ -48,51 +54,51 @@ const ChatList = () => {
       }}
       open
     >
-      <div className={classes.toolbarIcon}>
-        <IconButton>
-          <ChevronLeftIcon />
-        </IconButton>
-      </div>
+      <List>
+        <Link to="/">
+          <div className={classes.toolbarIcon}>
+            <IconButton>
+              <ChevronLeftIcon />
+            </IconButton>
+          </div>
+        </Link>
+      </List>
       <Divider />
       <List>
-        <div>
-          <ListItem button>
-            <ListItemIcon>
-              <ChatIcon />
-            </ListItemIcon>
-            <ListItemText primary="Chat 1" />
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-              <ChatIcon />
-            </ListItemIcon>
-            <ListItemText primary="Chat 2" />
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-              <ChatIcon />
-            </ListItemIcon>
-            <ListItemText primary="Chat 3" />
-          </ListItem>
-        </div>
+        {mockChats.map(({ id, name }) => (
+          <NavLink
+            key={id}
+            to={`/chats/${id}`}
+            className={classes.chatLink}
+            activeClassName={classes.activeChatLink}
+          >
+            <ListItem button>
+              <ListItemIcon>
+                <ChatIcon />
+              </ListItemIcon>
+              <ListItemText primary={name} />
+            </ListItem>
+          </NavLink>
+        ))}
       </List>
       <Divider className={classes.secondList} />
       <List>
-        <div>
-          <ListSubheader inset>Saved reports</ListSubheader>
+        <Link to="/about">
           <ListItem button>
             <ListItemIcon>
               <AssignmentIcon />
             </ListItemIcon>
-            <ListItemText primary="Settings" />
+            <ListItemText primary="About" />
           </ListItem>
+        </Link>
+        <Link to="/">
           <ListItem button>
             <ListItemIcon>
-              <AssignmentIcon />
+              <HomeIcon />
             </ListItemIcon>
-            <ListItemText primary="Log out" />
+            <ListItemText primary="Home" />
           </ListItem>
-        </div>
+        </Link>
       </List>
     </Drawer>
   );

@@ -1,8 +1,19 @@
 import React from "react";
-import Home from "../pages/Home.jsx";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { CssBaseline } from "@material-ui/core";
+import { BrowserRouter } from "react-router-dom";
+import RootRouter from "../pages/RootRouter/RootRouter.jsx";
 
+const theme = createMuiTheme();
 const App = () => {
-  return <Home />;
+  return (
+    <BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <RootRouter />
+      </ThemeProvider>
+    </BrowserRouter>
+  );
 };
 
 export default App;

@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Face";
 import { MenuItem } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -35,16 +36,20 @@ function TopMenu() {
         >
           <MenuIcon />
         </IconButton>
-        <MenuItem>
-          <Typography variant="h6" className={classes.title}>
-            Home
-          </Typography>
-        </MenuItem>
-        <MenuItem>
-          <Typography variant="h6" className={classes.title}>
-            About
-          </Typography>
-        </MenuItem>
+        <Link to="/">
+          <MenuItem>
+            <Typography variant="h6" className={classes.title}>
+              Home
+            </Typography>
+          </MenuItem>
+        </Link>
+        <Link to="about">
+          <MenuItem>
+            <Typography variant="h6" className={classes.title}>
+              About
+            </Typography>
+          </MenuItem>
+        </Link>
       </Toolbar>
     </AppBar>
   );
