@@ -1,4 +1,6 @@
 import React from "react";
+import { useParams } from "react-router-dom";
+
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -8,41 +10,49 @@ import { Box } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
+  messeges: {
+    border: "1px solid black",
+    borderRadius: "4px",
+  },
   root: {
     display: "flex",
     flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
-    justifyContent: "center",
-    "& > *": {
-      margin: theme.spacing(10),
-    },
-    button: {},
+    marginTop: "5px",
+  },
+  message: {
+    flexGrow: "0",
+    backgroundColor: "blue",
+    color: "white",
+    marginBottom: "2px",
   },
 }));
 
 const MessageFiled = () => {
+  let { id } = useParams();
   const classes = useStyles();
-  const [val, setVal] = React.useState({ author: "", post: "", message: [] });
-  const handlerChange = (e) => {
-    setVal({
-      ...val,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const [author, setAuthor] = React.useState("");
+  const [post, setPost] = React.useState("");
+  const [messegs, setMessages] = React.useState([]);
   const addMessege = (e) => {
     e.preventDefault();
-    const author = val.author;
-    const post = val.post;
-    val.message.push({ author, post });
+    setMessages([...messegs, { [id]: { author, post } }]);
+    setAuthor("");
+    setPost("");
   };
 
   return (
     <Grid>
-      <Box>
-        {val.message.map((mes, index) => (
-          <Box key={index}>
-            <Typography paragraph>{mes.author}</Typography>
-            <Typography paragraph>{mes.post}</Typography>
+      <Box className={classes.messeges}>
+        {messegs.map((messeg, i) => (
+          <Box className={classes.message} key={i}>
+            <Typography variant="h5" gutterBottom>
+              {messeg[id].post}
+            </Typography>
+            <Typography variant="caption" paragraph>
+              Author:{messeg[id].author}
+            </Typography>
           </Box>
         ))}
         ;
@@ -51,19 +61,20 @@ const MessageFiled = () => {
         <TextField
           id="author"
           type="text"
-          onChange={handlerChange}
-          value={val.author}
+          onChange={(event) => setAuthor(event.target.value)}
+          value={author}
           name="author"
           label="Author"
         />
         <TextField
           id="post"
-          onChange={handlerChange}
-          value={val.post}
+          value={post}
+          onChange={(event) => setPost(event.target.value)}
           type="text"
           name="post"
           label="Your Massege"
         />
+
         <Button
           onClick={addMessege}
           type="submint"

@@ -7,10 +7,11 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     padding: theme.spacing(2),
+    maxWidth: 500,
   },
   input: {
     marginBottom: theme.spacing(1),
-  }
+  },
 }));
 
 const MessageForm = ({ addMessage }) => {
@@ -31,7 +32,7 @@ const MessageForm = ({ addMessage }) => {
       author: '',
       message: '',
     });
-  }
+  };
 
   const testInputs = () => {
     setInputErrors({
@@ -39,9 +40,8 @@ const MessageForm = ({ addMessage }) => {
       message: input.message.length === 0,
     });
 
-
     return input.author.length > 0 && input.message.length > 0;
-  }
+  };
 
   const onChange = ({ target }) => {
     const { name, value } = target;
@@ -50,18 +50,18 @@ const MessageForm = ({ addMessage }) => {
       ...input,
       [name]: value,
     });
-  }
+  };
 
-  const onSubmit = (e) => {
+  const onSubmit = e => {
     const { author, message } = input;
 
     e.preventDefault();
 
     if (testInputs()) {
-      addMessage({author, message})
+      addMessage({ author, message });
       clearInputs();
     }
-  }
+  };
 
   return (
     <form onSubmit={onSubmit} className={classes.form} noValidate autoComplete="off">
@@ -72,7 +72,8 @@ const MessageForm = ({ addMessage }) => {
         value={input.author}
         error={inputErrors.author}
         name="author"
-        placeholder="Author" />
+        placeholder="Author"
+      />
       <TextField
         onChange={onChange}
         className={classes.input}
@@ -80,10 +81,13 @@ const MessageForm = ({ addMessage }) => {
         value={input.message}
         error={inputErrors.message}
         name="message"
-        placeholder="Message" />
-      <Button type="submit" color="primary">Add message</Button>
+        placeholder="Message"
+      />
+      <Button type="submit" color="primary">
+        Add message
+      </Button>
     </form>
   );
-}
+};
 
 export default MessageForm;

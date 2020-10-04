@@ -1,48 +1,44 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { Redirect, useParams } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
 
-import { makeStyles } from '@material-ui/core';
+import { useSelector, useDispatch } from 'react-redux';
 
-import Message from './Message';
+import { addMessage as addMessageToStore } from '../../features/messages/messagesSlice';
+
 import MessageForm from './MessageForm';
-
-const useStyles = makeStyles(theme => ({
-  messagesList: {
-    display: 'flex',
-    flexDirection: 'column',
-    margin: 0,
-    padding: theme.spacing(2),
-    width: 500,
-  }
-}));
+import MessagesList from './MessagesList';
 
 const Messages = () => {
-  const classes = useStyles();
-
-  const [messagesList, setMessagesList] = useState([{ _id: uuid(), author: 'Bot', message: 'Hello!' }]);
+  const { id: chatId } = useParams();
+  const chat = useSelector(state => state.messages.chats[chatId]);
+  const dispatch = useDispatch();
 
   const addMessage = ({ author, message }) => {
-    const newMessage = { _id: uuid(), author: author, message: message };
+    const newMessage = { id: uuid(), chatId, author, message };
 
-    setMessagesList([...messagesList, newMessage]);
-  }
+    dispatch(addMessageToStore(newMessage));
+  };
 
   useEffect(() => {
-    if (messagesList[messagesList.length - 1].author !== 'Bot') {
+    const { messages } = chat;
+    const lastMessage = messages[messages.length - 1];
+
+    if (lastMessage.author !== 'Bot') {
       setTimeout(() => addMessage({ author: 'Bot', message: 'Ok!' }), 300);
     }
-  }, [messagesList])
+  });
 
-  return (<>
-    <MessageForm addMessage={addMessage} />
-    <ul className={classes.messagesList}>
-      {
-        messagesList.map(({ _id, author, message }) => {
-          return <Message key={_id} message={message} author={author} />
-        })
-      }
-    </ul>
-  </>);
-}
+  if (!chat) {
+    return <Redirect to="/" />;
+  }
+
+  return (
+    <>
+      <MessageForm addMessage={addMessage} />
+      <MessagesList messages={chat.messages} />
+    </>
+  );
+};
 
 export default Messages;
