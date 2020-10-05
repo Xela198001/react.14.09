@@ -13,7 +13,7 @@ export const { getProfile } = profileSlice;
 export const asyncGetProfile = () => async dispatch => {
   try {
     const { data, status } = await fetch('who_am_i');
-    if (status == 200) {
+    if (status === 200) {
       localStorage.setItem('profile', data);
       dispatch(getProfile(data));
     }

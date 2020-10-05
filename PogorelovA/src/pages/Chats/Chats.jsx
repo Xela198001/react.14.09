@@ -8,7 +8,7 @@ import MessageList from '../../components/MessageList';
 import FormMessage from '../../components/FormMessage';
 import Layout from '../../components/Layout/Layout';
 import { asyncAddMessage } from '../../reducers/messagesReducer';
-import { getCurrentMessages } from '../../selectors/chatsSelectors';
+import { getActiveMessages, getCurrentMessages } from '../../selectors/chatsSelectors';
 
 class Chats extends Component {
   submitMessage = ({ author, message }) => {
@@ -22,11 +22,11 @@ class Chats extends Component {
   };
 
   render() {
-    const { messages } = this.props;
+    const { messages, activeMessages } = this.props;
 
     return (
       <Layout>
-        <MessageList messages={messages} />
+        <MessageList messages={messages} activeMessages={activeMessages} />
         <FormMessage addMessage={this.submitMessage} />
       </Layout>
     );
@@ -38,6 +38,8 @@ Chats.propTypes = {
     params: PropTypes.objectOf(PropTypes.any),
   }).isRequired,
   messages: PropTypes.arrayOf(PropTypes.any).isRequired,
+  activeMessages: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))
+    .isRequired,
   asyncAddMessage: PropTypes.func.isRequired,
 };
 
@@ -49,6 +51,7 @@ const mapStateToProps = (state, ownProps) => {
   } = ownProps;
   return {
     messages: getCurrentMessages(state, id),
+    activeMessages: getActiveMessages(state),
   };
 };
 
