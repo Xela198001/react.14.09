@@ -1,10 +1,13 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import produce from "immer";
 import MessageList from "../../components/MessageList";
 import FormMessage from "../../components/FormMessage";
 import { Box, withStyles } from "@material-ui/core";
 import Layout from "../../components/Layout/Layout";
+import { addMessageToState } from "../../actions/chatActions";
 
 const styles = (theme) => ({
   box: {
@@ -71,8 +74,11 @@ class Chats extends Component {
   }
 
   get messages() {
-    const { id } = this.props.match.params;
-    console.log(this.props.match.params);
+    const {
+      match: {
+        params: { id },
+      },
+    } = this.props;
     const { chats, messages } = this.state;
     if (id in chats) {
       return chats[id].messageList.map((messId) => messages[messId]);
@@ -80,9 +86,42 @@ class Chats extends Component {
     return [];
   }
 
+  //   addMessage = ({ author, message }) => {
+  //     const { id } = this.props.match.params; // в match хранятся id наших чатов
+  //     const { chats } = this.state;
+  //     const newId = uuidv4();
+
+  //     this.setState(({ chats, messages }) => ({
+  //       chats: {
+  //         ...chats,
+  //         [id]: { ...chats[id], messageList: [...chats[id].messageList, newId] },
+  //       },
+  //       messages: { ...messages, [newId]: { id: newId, author, message } },
+  //     }));
+  //   };
+
+  //   render() {
+  //     const { classes } = this.props;
+  //     console.log(this.state);
+  //     return (
+  //       // <Layout>
+  //       <Box className={classes.box} component="div" m={1}>
+  //         <Box className={classes.chat} component="div" m={2}>
+  //           <MessageList messages={this.messages} />
+  //           <FormMessage addMessage={this.addMessage} />
+  //         </Box>
+  //       </Box>
+  //       //</Layout>
+  //     );
+  //   }
+  // }
+
   addMessage = ({ author, message }) => {
-    const { id } = this.props.match.params; // в match хранятся id наших чатов
-    const { chats } = this.state;
+    const {
+      match: {
+        params: { id },
+      },
+    } = this.props;
     const newId = uuidv4();
 
     this.setState(({ chats, messages }) => ({
@@ -92,22 +131,51 @@ class Chats extends Component {
       },
       messages: { ...messages, [newId]: { id: newId, author, message } },
     }));
+
+    // with Immer.js
+    // this.setState(
+    //   produce(draft => {
+    //     draft.chats[id].messageList.push(newId);
+    //     draft.messages[newId] = { id: newId, author, message };
+    //   }),
+    // );
+  };
+
+  addChat = () => {
+    const newId = uuidv4();
+    this.setState(({ chats }) => ({
+      chats: {
+        ...chats,
+        [newId]: { id: newId, title: `Чат ${newId}`, messageList: [] },
+      },
+    }));
   };
 
   render() {
-    const { classes } = this.props;
-    console.log(this.state);
+    const { chats } = this.state;
+    console.log(this.props);
     return (
-      // <Layout>
-      <Box className={classes.box} component="div" m={1}>
-        <Box className={classes.chat} component="div" m={2}>
-          <MessageList messages={this.messages} />
-          <FormMessage addMessage={this.addMessage} />
-        </Box>
-      </Box>
-      //</Layout>
+      <Layout chats={Object.values(chats)} addChat={this.addChat}>
+        <MessageList messages={this.messages} />
+        <FormMessage addMessage={this.addMessage} />
+      </Layout>
     );
   }
 }
 
-export default withStyles(styles)(Chats);
+
+Chats.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.objectOf(PropTypes.any),
+  }).isRequired,
+};
+
+const mapStateToProps = (store) => ({
+  chatsFromRedux: store.chats,
+});
+
+const mapDispatchToProps = {
+  addMessage: addMessageToState,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Chats);

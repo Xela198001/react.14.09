@@ -9,6 +9,7 @@ import {
   ListItemIcon,
   ListItemText,
   ListSubheader,
+  Button,
   makeStyles,
 } from "@material-ui/core";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
@@ -18,6 +19,8 @@ import PeopleIcon from "@material-ui/icons/People";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import cn from "classnames";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addChatToState } from "../../actions/chatActions";
 import mockChats from "./mockChats";
 
 const useStyles = makeStyles((theme) => ({
@@ -45,6 +48,13 @@ const useStyles = makeStyles((theme) => ({
 const ChatList = () => {
   const classes = useStyles();
 
+  const chats = useSelector((store) => store.chats.byIds);
+  const dispatch = useDispatch();
+
+  const addChat = () => {
+    dispatch(addChatToState());
+  };
+
   return (
     <Drawer
       variant="permanent"
@@ -60,17 +70,18 @@ const ChatList = () => {
       </div>
       <Divider />
       <List>
-          {mockChats.map(({id, name})=> (
-              <Link key={id} to={`/chats/${id}`}>
-                <ListItem button>
-                  <ListItemIcon>
-                    <DashboardIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={name} />
-                </ListItem>
-              </Link>
-            ))}
+        {Object.values(chats).map(({ id, title }) => (
+          <Link key={id} to={`/chats/${id}`}>
+            <ListItem button>
+              <ListItemIcon>
+                <DashboardIcon />
+              </ListItemIcon>
+              <ListItemText primary={title} />
+            </ListItem>
+          </Link>
+        ))}
       </List>
+      <Button onClick={addChat}>add chats</Button>
       <Divider className={classes.secondList} />
       <List>
         <div>

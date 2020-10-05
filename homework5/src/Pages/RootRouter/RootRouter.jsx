@@ -13,7 +13,7 @@ import Home from "../Home";
 
 const RootRouter = () => {
   return (
-    <Layout>
+    // <Layout>
       <Switch>
         <Route exact path="/">
           <Home />
@@ -30,7 +30,7 @@ const RootRouter = () => {
           )}
         />
       </Switch>
-     </Layout>
+    //  </Layout>
   );
 };
 
