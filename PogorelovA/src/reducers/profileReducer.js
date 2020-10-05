@@ -1,23 +1,26 @@
 import { createSlice } from '@reduxjs/toolkit';
+import callAPI from '../utils/fetcher';
 
 export const profileSlice = createSlice({
   name: 'profile',
-  initialState: { firstName: 'Alexandr', lastName: 'Pog' },
+  initialState: { avatar: '', firstName: '', lastName: '' },
   reducers: {
-    getProfile() {},
+    getProfile: (state, { payload }) => {
+      return payload;
+    },
   },
 });
 
-export const { getProfile } = profileSlice;
+export const { getProfile } = profileSlice.actions;
 
 export const asyncGetProfile = () => async dispatch => {
   try {
-    const { data, status } = await fetch('who_am_i');
+    const { data, status } = await callAPI('/profile');
     if (status === 200) {
-      localStorage.setItem('profile', data);
       dispatch(getProfile(data));
     }
   } catch (e) {
+    console.log(e);
     console.log('error interceprto');
   }
 };

@@ -1,10 +1,18 @@
 import React from 'react';
 import cn from 'classnames';
-import { AppBar, Badge, IconButton, makeStyles, Toolbar, Typography } from '@material-ui/core';
+import {
+  AppBar,
+  Avatar,
+  Badge,
+  IconButton,
+  makeStyles,
+  Toolbar,
+  Typography,
+} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { useSelector } from 'react-redux';
-import { getFullName } from '../../selectors/profileSelectors';
+import { getAvatar, getFullName } from '../../selectors/profileSelectors';
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -33,12 +41,14 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1,
+    marginLeft: theme.spacing(1),
   },
 }));
 
 const Header = () => {
   const classes = useStyles();
   const fullName = useSelector(getFullName);
+  const avatar = useSelector(getAvatar);
 
   return (
     <AppBar position="absolute" className={cn(classes.appBar, classes.appBarShift)}>
@@ -51,6 +61,7 @@ const Header = () => {
         >
           <MenuIcon />
         </IconButton>
+        <Avatar src={avatar} alt={fullName} />
         <Typography
           component="h1"
           variant="h6"

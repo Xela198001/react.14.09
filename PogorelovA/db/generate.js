@@ -12,6 +12,7 @@ module.exports = () => {
       })),
     })),
     profile: {
+      avatar: faker.internet.avatar(),
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
     },
