@@ -37,8 +37,7 @@ Chats.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.objectOf(PropTypes.any),
   }).isRequired,
-  messages: PropTypes.arrayOf(PropTypes.any).isRequired,
-  asyncAddMessage: PropTypes.func.isRequired,
+   
 };
 
 const mapStateToProps = (state, ownProps) => {
