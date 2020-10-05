@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     listStyle: 'none',
     marggin: 0,
-    maxHeight: 200,
+    maxHeight: 500,
     overflow: 'auto',
     border: '1px solid #333',
     width: '100%',

@@ -31,6 +31,9 @@ const reducer = (state = initialState, action) => {
         draft.byIds[chatId].messageList.push(id);
       });
     }
+    case 'delete_chat': {
+      return { ...state, ids: state.ids.filter(id => id !== action.payload) };
+    }
     default:
       return state;
   }
