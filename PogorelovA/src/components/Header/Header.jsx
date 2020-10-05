@@ -62,15 +62,17 @@ const Header = () => {
           <MenuIcon />
         </IconButton>
         <Avatar src={avatar} alt={fullName} />
-        <Typography
-          component="h1"
-          variant="h6"
-          color="inherit"
-          noWrap
-          className={classes.title}
-        >
-          {`${fullName}'s chats`}
-        </Typography>
+        {!!fullName && (
+          <Typography
+            component="h1"
+            variant="h6"
+            color="inherit"
+            noWrap
+            className={classes.title}
+          >
+            {`${fullName}'s chats`}
+          </Typography>
+        )}
         <IconButton color="inherit">
           <Badge badgeContent={4} color="secondary">
             <NotificationsIcon />

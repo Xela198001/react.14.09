@@ -18,3 +18,5 @@ export const getCurrentMessages = (state, id) => {
 };
 
 export const getActiveMessages = store => store.messages.active;
+
+export const getIsFetching = store => store.chats.isFetching;
